@@ -11,31 +11,35 @@ function generateOTP() {
   return otp; 
 }
 
+
 async function sendOTP(username, otp) {
 
-  // Create a transporter using SMTP configuration
+  // Create a transporter using SMTP transport
   let transporter = nodemailer.createTransport({
-    host: 'smtp.example.com',
-    port: 587,
-    secure: false, 
+    service: 'gmail',
     auth: {
-      user: 'test@example.com',
-      pass: 'password'
+        user: 'ssylenthira@gmail.com',
+        pass: 'tmbecucwejgpfynh' // Gmail App Password
     }
   });
 
   // Define email options
   let mailOptions = {
-    from: 'test@example.com',
-    to: username, 
+    from: 'ssylenthira@gmail.com',
+    to: username,
     subject: 'OTP for login',
     text: `Your one time password is: ${otp}`
   };
 
   // Send email
-  let info = await transporter.sendMail(mailOptions);
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+        return console.log('Error occurred:', error);
+    }
+    console.log('Message sent successfully!');
+    console.log('Message ID:', info.messageId);
+  });
 
-  console.log('OTP sent successfully!');
 }
 
 
