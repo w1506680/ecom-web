@@ -1,6 +1,8 @@
 // authController.js
 const User = require('../models/user.model');
 const OTP = require('../models/otp.model');
+const { signToken } = require('../utils/token');
+const { hashPassword, comparePassword } = require('../utils/password');
 
 // Controller function for user registration
 const registerUser = async (req, res) => {
@@ -26,7 +28,7 @@ const registerUser = async (req, res) => {
 
 
         // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await hashPassword(password);
 
         // Create a new user
         const newUser = new User({
@@ -45,8 +47,26 @@ const registerUser = async (req, res) => {
 
 // Controller function for user login
 const loginUser = async (req, res) => {
-    // Implementation for user login
+    const { username, password } = req.body;
+  
+    // Validate username/password
+    const user = await User.findOne({username});
+    if(!user || !(await comparePassword(password, user.password))) {
+      return res.status(400).json({message: 'Invalid credentials'});
+    }
+  
+    // Generate and send OTP
+    const otp = generateOTP();
+    await sendOTP(user.username, otp);
+  
+    // Save OTP in user document
+    user.otp = otp;
+    await user.save();
+  
+    res.json({message: 'OTP sent'});
+  
 };
+
 
 // Controller function for user logout
 const logoutUser = async (req, res) => {
@@ -60,7 +80,25 @@ const generateOTP = async (req, res) => {
 
 // Controller function for verifying OTP
 const verifyOTP = async (req, res) => {
-    // Implementation for verifying OTP
+    const { username, otp } = req.body;
+
+    const user = await User.findOne({username});
+
+    // Verify OTP
+    if(otp !== user.otp) {
+        return res.status(400).json({message: 'Invalid OTP'});
+    }
+
+    // OTP Verified
+
+    // Generate JWT
+    const token = signToken(user);
+
+    // Revoke OTP
+    user.otp = null;
+    await user.save();
+
+    res.json({token});
 };
 
 module.exports = {
