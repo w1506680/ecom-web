@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 
 // Define routes for product api
 const { getAllProducts, getProductById } = require('../controllers/productController');
@@ -12,15 +13,17 @@ router.get('/products/:id', getProductById);
 const {
     registerUser,
     loginUser,
-    logoutUser,
-    generateOTP,
-    verifyOTP
+    verifyOTP,
+    changePassword,
+    forgotPassword,
+    resetPassword
 } = require('../controllers/authController');
 
-router.post('/register', registerUser);
-router.post('/login', loginUser);
-router.post('/logout', logoutUser);
-router.post('/generate-otp', generateOTP);
-router.post('/verify-otp', verifyOTP);
+router.post('/auth/register', registerUser);
+router.post('/auth/login', loginUser);
+router.post('/auth/verify-otp', verifyOTP);
+router.post('/auth/change-password', auth, changePassword)
+router.post('/auth/forgot-password', forgotPassword) 
+router.post('/auth/reset-password', resetPassword) 
 
 module.exports = router;
