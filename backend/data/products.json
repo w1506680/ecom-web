@@ -1,0 +1,23 @@
+[
+    {
+        "id": "1",
+        "name": "Coffee Maker",
+        "price": 99.99,
+        "description": "A stylish coffee maker brewing a fresh cup of coffee",
+        "image": "http://localhost:3000/images/product1.jpeg"
+    },
+    {
+        "id": "2",
+        "name": "Air Fryer",
+        "price": 149.99,
+        "description": "An air fryer cooking a healthy and delicious dinner with minimal oil",
+        "image": "http://localhost:3000/images/product2.jpeg"
+    },
+    {
+        "id": "3",
+        "name": "Blender",
+        "price": 49.99,
+        "description": "A multifunctional blender making a vibrant smoothie blending fresh fruits and vegetables",
+        "image": "http://localhost:3000/images/product3.jpeg"
+    }
+]
