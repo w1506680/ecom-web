@@ -60,6 +60,41 @@
             margin-top: 10px;
             font-size: 14px;
         }
+
+        /* CSS */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -70,10 +105,8 @@
             <nav>
                 <div class="toggle-menu">&#9776;</div>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li id="login-link" style="display: none;"><a href="login.html">Login or Register</a></li>
                     <li>
                         <a href="cart.html" class="cart-link">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
@@ -99,7 +132,7 @@
                 <form id="login-form">
                     <div class="form-group">
                         <label for="login-username">Username (Email):</label>
-                        <input type="text" id="login-username" name="username" required>
+                        <input type="text" id="login-username" name="email" required>
                     </div>
                     <div class="form-group">
                         <label for="login-password">Password:</label>
@@ -111,7 +144,16 @@
                     </div>
                 </form>
             </div>
-           
+
+            <div id="otp-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Enter OTP</h2>
+                    <input type="text" id="otp-input" placeholder="Enter OTP">
+                    <button id="submit-otp">Submit</button>
+                </div>
+            </div>
+
             <div class="form-container">
                 <h2>Register</h2>
                 <form id="register-form">
@@ -140,48 +182,7 @@
     </footer>
 
     <script src="js/script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const registerForm = document.getElementById('register-form');
-
-            registerForm.addEventListener('submit', function (event) {
-                event.preventDefault(); // Prevent the default form submission
-
-                // Get form data
-                const formData = new FormData(registerForm);
-
-                // Convert form data to JSON object
-                const jsonData = {};
-                formData.forEach((value, key) => {
-                    jsonData[key] = value;
-                });
-
-                // Send POST request to the backend
-                fetch('http://localhost:3000/api/auth/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(jsonData)
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            // Registration successful
-                            alert('Registration successful! You can now login.');
-                            // Reset registration form
-                            registerForm.reset();
-                        } else {
-                            // Registration failed
-                            alert('Registration failed. Please try again.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred. Please try again later.');
-                    });
-            });
-        });
-    </script>
+    <script src="js/login.js"></script>
 </body>
 
 </html>

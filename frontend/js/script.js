@@ -10,8 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load cart items from localStorage when the page loads
     loadCart();
-
-
+   
 });
 
 
@@ -51,8 +50,6 @@ function displayProducts(products) {
         addToCartBtn.classList.add('add-to-cart-btn');
         addToCartBtn.setAttribute('data-product-id', product.id);
         
-
-
         productItem.appendChild(img);
         productItem.appendChild(name);
         productItem.appendChild(price);
@@ -117,3 +114,24 @@ function updateCartBadge() {
     cartBadge.textContent = totalItems;
 }
 
+// Check if the user is logged in
+const isLoggedIn = localStorage.getItem('jwt') !== null;
+
+// Show the login link only if the user is not logged in
+if (isLoggedIn == false) {
+    document.getElementById('login-link').style.display = 'block';
+    document.getElementById('logout-link').style.display = 'none';
+} else {
+    document.getElementById('login-link').style.display = 'none';
+    document.getElementById('logout-link').style.display = 'block';
+}
+
+// Function to handle logout
+function handleLogout() {
+    // Clear JWT token from local storage
+    localStorage.removeItem('jwt');
+    // Redirect the user to the login page or any other desired page
+    window.location.href = 'login.html'; // Redirect to login page
+}
+
+document.getElementById('logout').addEventListener('click', handleLogout);
