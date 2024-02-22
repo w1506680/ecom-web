@@ -7,14 +7,14 @@ async function sendResetPasswordUrl(email, resetUrl) {
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-          user: 'ssylenthira@gmail.com',
-          pass: 'tmbecucwejgpfynh' // Gmail App Password
+          user: 'example@gmail.com',
+          pass: 'cgvbecucwejgpfynh' // Gmail App Password
       }
     });
   
     // Define email options
     let mailOptions = {
-      from: 'ssylenthira@gmail.com',
+      from: 'example@gmail.com',
       to: email,
       subject: 'Reset Password',
       text: `Reset your password by clicking here: \n\n ${resetUrl}`

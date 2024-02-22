@@ -94,7 +94,7 @@ const verifyOTP = async (req, res) => {
 
     // OTP verification logic...
     const otpDoc = await OTP.findOne({email:email, otp:otp});
-    console.log(otpDoc);
+
     if(!otpDoc || otpDoc.expiresAt < Date.now()) {
         // OTP expired
         return res.status(400).send('OTP expired'); 
