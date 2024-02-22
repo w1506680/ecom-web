@@ -4,7 +4,6 @@ const auth = require('../middleware/auth');
 
 // Define routes for product api
 const { getAllProducts, getProductById } = require('../controllers/productController');
-
 router.get('/products', getAllProducts);
 router.get('/products/:id', getProductById);
 
@@ -25,5 +24,10 @@ router.post('/auth/verify-otp', verifyOTP);
 router.post('/auth/change-password', auth, changePassword)
 router.post('/auth/forgot-password', forgotPassword) 
 router.post('/auth/reset-password', resetPassword) 
+
+// Define routes for checkout & payment transactions
+const { checkout, payment } = require('../controllers/paymentController');
+router.post('/transactions/checkout', checkout);
+router.post('/transactions/payment', payment);
 
 module.exports = router;
